@@ -64,32 +64,27 @@
                           <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <!-- The user image in the navbar-->
                             @if(Auth::user()->file)
-                                <img src="{{ Auth::user()->file }}" class="img-circle" alt="User Image" width="20" height="20">
+                                <img src="{{ asset(Auth::user()->file) }}" class="img-circle" alt="User Image" width="17" height="17">
                             @else
-                                <img src="{{url('imagedefeult/userdefault.png')}}" class="user-image" alt="User Image" width="160" height="160">
+                                <img src="{{url('imagedefeult/userdefault.png')}}" class="user-image" alt="User Image" >
                             @endif
                             <!-- hidden-xs hides the username on small devices so only the image appears. -->
-                            <span class="hidden-xs">{{ Auth::user()->name }}</span>
+                            <span class="hidden-xs">{{ Auth::user()->username }}</span>
                           </a>
                           <ul class="dropdown-menu">
                             <!-- The user image in the menu -->
                             <li class="user-header">
                             @if(Auth::user()->file)
-                                <img src="{{ Auth::user()->file }}" class="img-circle" alt="User Image">
+                                <img src="{{  asset(Auth::user()->file) }}" class="img-circle" alt="User Image">
                             @else
                                 <img src="{{url('imagedefeult/userdefault.png')}}" class="user-image" alt="User Image">
                             @endif
 
                               <p>
-                                {{ Auth::user()->name }} - {{ Auth::user()->userType }}
-                                @if(Auth::user()->created_at)
-                                    <small>{{ Auth::user()->created_at }}</small>
-                                   
-                                @else
-                                    <small>Sin Fecha</small>
-                                @endif
+                                {{ Auth::user()->name }} 
                               </p>
                             </li>
+
                             <!-- Menu Body -->
                             <li class="user-body">
                               
@@ -152,12 +147,19 @@
             @endif
 
             <!-- Content Header (Page header) -->
-            <section class="content-header">
+            <section class="content-header animated fadeIn">
                 @yield('content_header')
             </section>
 
+            <!-- confirm-delete -->
+
+            @yield('include_delete')
+
+            
             <!-- Main content -->
-            <section class="content">
+
+            <section class="content animated fadeIn">
+
 
             @if(session('danger'))
                 <div class="container">
@@ -189,8 +191,9 @@
                 </div>
             @endif
 
-
+            
                 @yield('content')
+               
 
             </section>
             <!-- /.content -->
@@ -212,7 +215,15 @@
 @section('adminlte_js')
     <script src="{{ asset('vendor/adminlte/dist/js/adminlte.min.js') }}"></script>
     <script type="text/javascript">
+
+
         $('div.alert').not('.alert-important').delay(3000).fadeOut(350) 
+
+        $('input[type="checkbox"], input[type="radio"]').iCheck({
+            checkboxClass: 'icheckbox_square-blue',
+            radioClass: 'iradio_square-blue',
+            increaseArea: '20%' // optional
+        })
     </script>
 
     @stack('js')

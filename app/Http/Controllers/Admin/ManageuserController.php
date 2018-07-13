@@ -9,8 +9,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\UserStoreRequest;
 use App\Http\Requests\UserUpdateRequest;
 use Illuminate\Support\Facades\Storage;
+use Auth;
 use Alert;
 use Validator;
+use App\Helpers\Animate;
 
 use App\User;
 
@@ -28,6 +30,15 @@ class ManageuserController extends Controller
      */
     public function index()
     {
+     
+       if (Auth::user()->userType !== 'ADMINISTRATOR') {
+
+        Alert::error('El usuario no esta autorizado para ingresar a este modulo');
+        return redirect()->route('home');
+       }
+
+
+        
        $users = User::where('username','!=','admin')->orderBy('id', 'DESC')->paginate();
 
        return view('admin.manageusers.index', compact('users'));
@@ -40,6 +51,7 @@ class ManageuserController extends Controller
      */
     public function create()
     {
+
         return view('admin.manageusers.create');
     }
 
@@ -91,7 +103,9 @@ class ManageuserController extends Controller
     {
         $user = User::find($id);
 
-        return view('admin.manageusers.show', compact('user'));
+        $image  = Animate::image();  
+
+        return view('admin.manageusers.show', compact('user', 'image'));
     }
 
     /**
@@ -103,6 +117,7 @@ class ManageuserController extends Controller
     public function edit($id)
     {
         $user = User::find($id);
+
 
         return view('admin.manageusers.edit', compact('user'));
     }
@@ -140,6 +155,8 @@ class ManageuserController extends Controller
 
         $user->fill($request->all())->save();
 
+        if($request->input('resetpass') == 'on') $user->fill(['password' => bcrypt('123456')])->save();
+        
 
         Alert::success('Usuario actualizado con exito');
         return redirect()->route('manageusers.edit', $user->id);
@@ -167,8 +184,10 @@ class ManageuserController extends Controller
 
         $user = User::find($id);
 
+        $image  = Animate::image(); 
+
         //return $user;
-        return view('admin.manageusers.setting', compact('user'));
+        return view('admin.manageusers.setting', compact('user', 'image'));
     }
 
 
@@ -206,12 +225,14 @@ class ManageuserController extends Controller
          //IMAGE 
         if($request->file('image')){
             $path = Storage::disk('public')->put('image',  $request->file('image'));
-            $user->fill(['file' => asset($path)])->save();
+            //$user->fill(['file' => asset($path)])->save();
+            $user->fill(['file' =>  $path])->save();
         }
 
+        $image  = Animate::image(); 
 
         Alert::success('Usuario actualizado con exito');
-        return view('admin.manageusers.setting', compact('user'));
+        return view('admin.manageusers.setting', compact('user', 'image'));
 
     }
 }

@@ -25,3 +25,7 @@ route::resource('manageusers', 		'Admin\ManageuserController');
 route::get('/showSetting/{id}',		'Admin\ManageuserController@showSetting')->name('showSetting');
 route::put('/setting/{id}',		'Admin\ManageuserController@setting')->name('setting');
 //
+
+//menu principal
+route::resource('clients', 		'Admin\ClientController');
+//

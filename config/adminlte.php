@@ -40,7 +40,7 @@ return [
     |--------------------------------------------------------------------------
     |
     | Choose a skin color for your admin panel. The available skin colors:
-    | blue, black, purple, yellow, red, and green. Each skin also has a
+    | blue, black, purple, yellow, red, and c. Each skin also has a
     | ligth variant: blue-light, purple-light, purple-light, etc.
     |
     */
@@ -107,27 +107,24 @@ return [
     |
     */
 
+    
     'menu' => [
-        'MENU',
-        [
-            'text' => 'Menu',
-            'url'  => 'admin/blog',
-            'can'  => 'manage-blog',
-        ],
+
+        'ADMINISTACIÓN',
         [
             'text'        => 'Usuarios',
             'url'         => 'manageusers',
             'icon'        => 'users',
         ],
-        'ACCOUNT SETTINGS',
+        'MENU PRINCIPAL',
         [
-            'text' => 'Profile',
-            'url'  => 'admin/settings',
+            'text' => 'Clientes',
+            'url'  => 'clients',
             'icon' => 'user',
         ],
         [
             'text' => 'Change Password',
-            'url'  => 'admin/settings',
+            'url'  => '#',
             'icon' => 'lock',
         ],
         [
@@ -172,6 +169,7 @@ return [
         [
             'text'       => 'Important',
             'icon_color' => 'red',
+            'url'  => '#',
         ],
         [
             'text'       => 'Warning',
@@ -281,6 +279,7 @@ return [
         JeroenNoten\LaravelAdminLte\Menu\Filters\SubmenuFilter::class,
         JeroenNoten\LaravelAdminLte\Menu\Filters\ClassesFilter::class,
         JeroenNoten\LaravelAdminLte\Menu\Filters\GateFilter::class,
+        //App\Providers\FilterServiceProvider::class,
     ],
 
     /*
@@ -295,8 +294,8 @@ return [
     */
 
     'plugins' => [
-        'datatables' => true,
+        'datatables' => false,
         'select2'    => true,
-        'chartjs'    => true,
+        'chartjs'    => false,
     ],
 ];

@@ -2,7 +2,7 @@
 
     return [
         'ADMINISTRATOR'   => 'Administrador',
-        'MANAGMENT' => 'Gestiòn',
+        'MANAGMENT' => 'Gestión',
 		'READONLY' => 'Solo Lectura',
 		'WAITING' => 'En Espera',
 		'RECEIVED' => 'Recibido',
